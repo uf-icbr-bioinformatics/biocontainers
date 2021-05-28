@@ -11,15 +11,26 @@ From: ubuntu:latest
 	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 	# add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
 	add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/"
-	apt-get update --fix-missing && apt-get install -y samtools bedtools r-base r-base-core r-recommended r-base-dev wget git curl libcurl4-openssl-dev libssl-dev libxml2-dev
+	apt-get update --fix-missing && apt-get install -y samtools bedtools r-base r-base-core r-recommended r-base-dev wget git curl libcurl4-openssl-dev libssl-dev libxml2-dev python3-pandas python3-pip python-is-python3
 	echo "install.packages(\"BiocManager\")" > setup.R
     	echo "BiocManager::install(\"DESeq2\")" >> setup.R
     	Rscript setup.R
+	# Install DASA helper tools
+	git clone https://github.com/uf-icbr-bioinformatics/dasa.git
+	cd dasa/bin/
+	cp *.py *.sh /usr/bin/
+	# Download UCSC tools
     	cd /usr/bin/
     	wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedGraphToBigWig
     	wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedToBigBed
     	chmod +x bedGraphToBigWig bedToBigBed
+	# Install deeptools
+	pip install deeptools
+
+%environment
+	export PATH=/usr/local/bin:$PATH
 
 %runscript
-    exec multiqc "$@"
+	echo "This container includes programs required by the DASA pipeline."
+	
 
