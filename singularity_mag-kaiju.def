@@ -1,0 +1,13 @@
+Bootstrap: localimage
+
+From: base.img
+
+%post
+	cd /usr/local/
+	git clone https://github.com/bioinformatics-centre/kaiju.git
+	cd kaiju/src
+	make
+
+%environment
+	export PATH=/usr/local/kaiju/bin:$PATH
+
