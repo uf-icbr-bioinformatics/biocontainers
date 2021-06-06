@@ -22,7 +22,12 @@ From: base.img
     	chmod +x bedGraphToBigWig bedToBigBed
 	# Install deeptools
 	pip install deeptools
-
+	# Install csvtoxls
+	pip install XlsxWriter
+	cd /usr/local/share/
+	git clone https://github.com/uf-icbr-bioinformatics/csvutils.git
+	cp csvutils/csvtoxls.py /usr/bin/
+	
 %environment
 	export PATH=/usr/local/bin:$PATH
 	export DASA_TEMPLATE=/usr/local/share/dasa/report-template.html
